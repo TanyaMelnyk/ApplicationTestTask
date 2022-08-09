@@ -1,3 +1,137 @@
-p {
-  color: red;
+
+
+.folders-container {
+  height: 100vh;
+  background-color: $bt-dark;
+}
+
+.folders, .folder-list, .folder-content{
+  height: 100vh;
+}
+
+.folders {
+  background: $bt-purple-gradient;
+  padding: 24px 16px;
+  display: flex;
+  flex-direction: column;
+
+  & .logoImage {
+    max-width: 60%;
+    margin-bottom: 60px;
+  }
+
+  & .folder {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    color: $bt-white;
+    padding: 10px 11px 10px 35px;
+
+    & span {
+      opacity: 30%;
+    }
+
+    &:before {
+      content: '';
+      position: absolute;
+      left: 5px;
+      width: 22px;
+      height: 20px;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='22' height='20' viewBox='0 0 22 20' fill='none'%3E%3Cpath d='M10.0667 1.8L9.61667 2.4L10.0667 1.8ZM11.9333 3.2L12.3833 2.6L11.9333 3.2ZM20.25 8V15H21.75V8H20.25ZM17 18.25H5V19.75H17V18.25ZM1.75 15V5H0.25V15H1.75ZM14.3333 4.75H17V3.25H14.3333V4.75ZM5 1.75H7.66667V0.25H5V1.75ZM9.61667 2.4L11.4833 3.8L12.3833 2.6L10.5167 1.2L9.61667 2.4ZM7.66667 1.75C8.36987 1.75 9.0541 1.97808 9.61667 2.4L10.5167 1.2C9.69446 0.583345 8.69443 0.25 7.66667 0.25V1.75ZM14.3333 3.25C13.6301 3.25 12.9459 3.02192 12.3833 2.6L11.4833 3.8C12.3055 4.41665 13.3056 4.75 14.3333 4.75V3.25ZM5 18.25C3.20507 18.25 1.75 16.7949 1.75 15H0.25C0.25 17.6234 2.37665 19.75 5 19.75V18.25ZM20.25 15C20.25 16.7949 18.7949 18.25 17 18.25V19.75C19.6234 19.75 21.75 17.6234 21.75 15H20.25ZM21.75 8C21.75 5.37665 19.6234 3.25 17 3.25V4.75C18.7949 4.75 20.25 6.20507 20.25 8H21.75ZM1.75 5C1.75 3.20507 3.20507 1.75 5 1.75V0.25C2.37665 0.25 0.25 2.37665 0.25 5H1.75Z' fill='%23DFA549'/%3E%3C/svg%3E");
+    }
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 8px;
+      &:before {
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='22' height='20' viewBox='0 0 22 20' fill='none'%3E%3Cpath d='M18.3247 7.75V6.625C18.3247 4.76104 16.8704 3.25 15.0763 3.25H11.7227C11.1448 3.25 10.5773 3.0898 10.0788 2.78592L7.91049 1.46408C7.41201 1.1602 6.84453 1 6.26659 1H4.24839C2.45435 1 1 2.51104 1 4.375V15.625C1 17.489 2.45435 19 4.24839 19H13.7069C15.2282 19 16.6381 18.1707 17.4208 16.8152L20.688 11.1576C21.5541 9.65794 20.5144 7.75 18.8311 7.75H18.3247ZM18.3247 7.75H9.2287C7.51706 7.75 5.96597 8.7973 5.27081 10.4224L2.0828 17.875' stroke='%23DFA549' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+      }
+    }
+  }
+
+  & .add-folder {
+    margin-top: auto;
+    background-color: transparent;
+    border: none;
+    color: $bt-white;
+  }
+}
+.tasks-list {
+  background-color: $bt-dark-purple;
+  height: 100vh;
+  margin: 0 -12px;
+
+  & .task {
+    padding: 16px 32px;
+    margin: 0 16px;
+    color: $bt-white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.2);
+      border-radius: 8px;
+    }
+
+    & .description {
+      color: rgba(255, 255, 255, 0.5);
+      font-size: 14px;
+      font-weight: normal;
+      display: -webkit-box;
+      -webkit-line-clamp: 1;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      text-overflow: ellipsis;
+
+      & span {
+        font-weight: 600;
+        color: $bt-white;
+        margin-right: 8px;
+      }
+    }
+  }
+}
+.tasks-bar {
+  padding: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: $bt-dark-purple;
+
+  & div {
+    @include block-centering;
+  }
+
+  & button {
+    @include block-centering;
+    width: 40px;
+    height: 40px;
+    background-color: transparent;
+    border: none;
+
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.2);
+      border-radius: 4px;
+    }
+  }
+}
+
+.task-content {
+  padding: 14px 32px;
+  font-size: 14px;
+
+  & .content-date {
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.5);
+    text-align: center;
+  }
+
+  & h3 {
+    font-size: 16px;
+  }
+
+  & .description {
+    color: rgba(255, 255, 255, 0.5);
+  }
 }

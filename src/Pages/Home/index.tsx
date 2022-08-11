@@ -1,47 +1,61 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./style.scss";
 import { Col, Container, Row } from "react-bootstrap";
+import { useAppSelector, useAppDispatch } from "../../hooks";
 import FolderList from "./components/FolderList";
-import { FoldersList } from "./types";
 import TasksList from "./components/TasksList";
 import TaskContent from "./components/TaskContent";
-
-const tasks = [
-  { name: "task1", description: "text", time: 1660075944351 },
-  {
-    name: "task2",
-    description: "text text text text text text text text text text",
-    time: 1660076166722,
-  },
-];
-const folders: FoldersList = [
-  { name: "Folder1", id: 1, tasks },
-  {
-    name: "Folder2",
-    id: 2,
-    tasks: [{ name: "task1", description: "text", time: 1660076196967 }],
-  },
-  { name: "Test", id: 3, tasks: [] },
-];
+import { pageMounted } from "./model";
+import { RootState } from "../../reduxStore";
 
 const Home = () => {
+  const dispatch = useAppDispatch();
+  const folders = useAppSelector(
+    (state: RootState) => state.taskManager.folders
+  );
+  const activeFolderId = useAppSelector(
+    (state: RootState) => state.taskManager.activeFolderId
+  );
+  const activeTaskId = useAppSelector(
+    (state: RootState) => state.taskManager.activeTaskId
+  );
+  const isLoading = useAppSelector(
+    (state: RootState) => state.taskManager.isLoading
+  );
+
+  const getActiveFolder = () => {
+    return folders.find((item) => item.id === activeFolderId);
+  };
+
+  const getActiveTask = () => {
+    if (getActiveFolder().tasks.length) {
+      return getActiveFolder().tasks.find((item) => item.id === activeTaskId);
+    } else return null;
+  };
+
+  useEffect(() => {
+    dispatch(pageMounted());
+  }, []);
+
   return (
     <Container className="folders-container" fluid="true">
-      <Row>
-        <Col xs lg="2">
-          <FolderList tasks={folders} />
-        </Col>
-        <Col lg="4">
-          <TasksList tasks={tasks} />
-        </Col>
-        <Col lg="6">
-          <TaskContent
-            name={tasks[0].name}
-            description={tasks[0].description}
-            date={tasks[0].time}
-          />
-        </Col>
-      </Row>
+      {!isLoading && folders.length && (
+        <Row className="m-auto">
+          <Col xs lg="2">
+            <FolderList tasks={folders} />
+          </Col>
+          <Col lg="4">
+            <TasksList tasks={getActiveFolder().tasks} />
+          </Col>
+          <Col lg="6">
+            <TaskContent
+              name={getActiveTask()?.name}
+              description={getActiveTask()?.description}
+              date={getActiveTask()?.time}
+            />
+          </Col>
+        </Row>
+      )}
     </Container>
   );
 };

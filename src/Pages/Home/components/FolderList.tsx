@@ -13,7 +13,12 @@ const FolderList = ({ tasks }: { tasks: FoldersList }) => {
       />
       {tasks.map((item) => {
         return (
-          <Folder key={item.id} name={item.name} tasks={item.tasks.length} />
+          <Folder
+            key={item.id}
+            id={item.id}
+            name={item.name}
+            tasks={item.tasks}
+          />
         );
       })}
       <button className="add-folder">

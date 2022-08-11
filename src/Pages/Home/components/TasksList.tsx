@@ -2,9 +2,9 @@ import React from "react";
 import "./../style.scss";
 import TaskBar from "./TaskBar";
 import Task from "./Task";
-import { Task as TaskType } from "./../types";
+import { TasksList as TasksListType } from "./../types";
 
-const TasksList = ({ tasks }: { tasks: TaskType[] }) => {
+const TasksList = ({ tasks }: { tasks: TasksListType }) => {
   return (
     <div className="tasks-list">
       <TaskBar>
@@ -20,16 +20,18 @@ const TasksList = ({ tasks }: { tasks: TaskType[] }) => {
           <img src="./../../../../assets/basket.svg" alt="" />
         </button>
       </TaskBar>
-      {tasks.map((item) => {
-        return (
-          <Task
-            key={item.time}
-            name={item.name}
-            text={item.description}
-            date={item.time}
-          />
-        );
-      })}
+      {tasks.length &&
+        tasks.map((item) => {
+          return (
+            <Task
+              key={item.time}
+              id={item.id}
+              name={item.name}
+              text={item.description}
+              date={item.time}
+            />
+          );
+        })}
     </div>
   );
 };

@@ -2,9 +2,23 @@ import React from "react";
 import "./../style.scss";
 import TaskBar from "./TaskBar";
 import Task from "./Task";
-import { TasksList as TasksListType } from "./../types";
+import { FoldersList } from "../types";
+import { useAppDispatch, useAppSelector } from "../../../hooks";
+import { updateTaskData } from "../model";
+import { getActiveFolder } from "../utils";
 
-const TasksList = ({ tasks }: { tasks: TasksListType }) => {
+const TasksList = ({ folders }: { folders: FoldersList }) => {
+  const dispatch = useAppDispatch();
+  const userId = useAppSelector(({ authorization }) => authorization.userId);
+  const folderId = useAppSelector(
+    ({ taskManager }) => taskManager.activeFolderId
+  );
+
+  const folder = folders ? getActiveFolder(folders, folderId) : null;
+  const handleClick = () => {
+    dispatch(updateTaskData(userId, folderId));
+  };
+
   return (
     <div className="tasks-list">
       <TaskBar>
@@ -20,8 +34,9 @@ const TasksList = ({ tasks }: { tasks: TasksListType }) => {
           <img src="./../../../../assets/basket.svg" alt="" />
         </button>
       </TaskBar>
-      {tasks.length &&
-        tasks.map((item) => {
+      {folder &&
+        folder.tasks &&
+        folder.tasks.map((item) => {
           return (
             <Task
               key={item.time}
@@ -32,6 +47,9 @@ const TasksList = ({ tasks }: { tasks: TasksListType }) => {
             />
           );
         })}
+      <button onClick={handleClick} className="add-button">
+        <img src="./../../../../assets/folder-add.svg" alt="" /> New task
+      </button>
     </div>
   );
 };

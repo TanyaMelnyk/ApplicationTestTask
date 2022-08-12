@@ -2,8 +2,17 @@ import React from "react";
 import "./../style.scss";
 import Folder from "./Folder";
 import { FoldersList } from "../types";
+import { useAppDispatch, useAppSelector } from "../../../hooks";
+import { updateFolderData } from "../model";
 
-const FolderList = ({ tasks }: { tasks: FoldersList }) => {
+const FolderList = ({ folders }: { folders: FoldersList }) => {
+  const dispatch = useAppDispatch();
+  const userId = useAppSelector(({ authorization }) => authorization.userId);
+
+  const handleClick = () => {
+    dispatch(updateFolderData(userId));
+  };
+
   return (
     <div className="folders">
       <img
@@ -11,7 +20,7 @@ const FolderList = ({ tasks }: { tasks: FoldersList }) => {
         alt="logo"
         src="./../../../../assets/BT_Logo%204.png"
       />
-      {tasks.map((item) => {
+      {folders.map((item) => {
         return (
           <Folder
             key={item.id}
@@ -21,7 +30,7 @@ const FolderList = ({ tasks }: { tasks: FoldersList }) => {
           />
         );
       })}
-      <button className="add-folder">
+      <button onClick={handleClick} className="add-button">
         <img src="./../../../../assets/folder-add.svg" alt="" /> New folder
       </button>
     </div>

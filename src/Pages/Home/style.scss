@@ -1,12 +1,28 @@
 
-
 .folders-container {
-  height: 100vh;
+  height: 100%;
   background-color: $bt-dark;
+
+  & .add-button {
+    display: flex;
+    align-items: center;
+    font-size: 12px;
+    font-weight: 600;
+    margin-top: auto;
+    background-color: transparent;
+    border: none;
+    color: rgba(255, 255, 255, 0.5);;
+    align-self: flex-start;
+
+    & img {
+      margin-right: 10px;
+    }
+  }
 }
 
-.folders, .folder-list, .folder-content{
-  height: 100vh;
+.folders, .folder-list, .tasks-list, .folder-content{
+  height: 100%;
+  min-height: 100vh;
 }
 
 .folders {
@@ -14,6 +30,7 @@
   padding: 24px 16px;
   display: flex;
   flex-direction: column;
+  margin-left: -12px;
 
   & .logoImage {
     max-width: 60%;
@@ -21,11 +38,14 @@
   }
 
   & .folder {
+    cursor: pointer;
     position: relative;
     display: flex;
     justify-content: space-between;
     color: $bt-white;
+    font-weight: 600;
     padding: 10px 11px 10px 35px;
+    margin-bottom: 5px;
 
     & span {
       opacity: 30%;
@@ -48,26 +68,25 @@
       }
     }
   }
-
-  & .add-folder {
-    margin-top: auto;
-    background-color: transparent;
-    border: none;
-    color: $bt-white;
-  }
 }
 .tasks-list {
   background-color: $bt-dark-purple;
-  height: 100vh;
   margin: 0 -12px;
+  padding-bottom: 24px;
+  display: flex;
+  flex-direction: column;
 
   & .task {
     padding: 16px 32px;
-    margin: 0 16px;
-    color: $bt-white;
-    font-size: 16px;
-    font-weight: bold;
+    margin: 0 16px 5px;
     cursor: pointer;
+
+    & p {
+      color: $bt-white;
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
 
     &:hover, &.active {
       background-color: rgba(0, 0, 0, 0.2);
@@ -91,13 +110,23 @@
       }
     }
   }
+  & .add-button {
+    margin-left:16px
+  }
 }
+
+.task-container {
+  margin-right: -12px;
+}
+
 .tasks-bar {
   padding: 16px;
   display: flex;
+  height: 72px;
   justify-content: space-between;
   align-items: center;
   background: $bt-dark-purple;
+
 
   & div {
     @include block-centering;
@@ -125,13 +154,17 @@
     font-weight: 600;
     color: rgba(255, 255, 255, 0.5);
     text-align: center;
+    margin-bottom: 22px;
   }
 
   & h3 {
     font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 5px;
   }
 
   & .description {
     color: rgba(255, 255, 255, 0.5);
+    font-weight: normal;
   }
 }

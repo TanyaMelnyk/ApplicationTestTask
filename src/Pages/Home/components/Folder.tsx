@@ -11,7 +11,7 @@ const Folder = ({
   name,
   tasks,
 }: {
-  id: number;
+  id: string;
   name: string;
   tasks: TasksList;
 }) => {
@@ -24,7 +24,7 @@ const Folder = ({
 
   const handleClick = () => {
     dispatch(updateActiveFolderId(id));
-    dispatch(updateActiveTaskId(tasks.length ? tasks[0].id : null));
+    dispatch(updateActiveTaskId(tasks ? tasks[0].id : null));
   };
 
   return (
@@ -32,7 +32,7 @@ const Folder = ({
       onClick={handleClick}
       className={isActive ? "folder active" : "folder"}
     >
-      {name} <span>{tasks.length}</span>
+      {name} <span>{tasks ? tasks.length : 0}</span>
     </div>
   );
 };

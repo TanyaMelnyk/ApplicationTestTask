@@ -14,7 +14,7 @@ const Task = ({
   name: string;
   date: number;
   text: string;
-  id: number;
+  id: string;
 }) => {
   const dispatch = useAppDispatch();
   const activeTaskId = useAppSelector(

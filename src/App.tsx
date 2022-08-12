@@ -5,36 +5,26 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { Home } from "./Pages";
 import { Login } from "./Pages";
 import "./style.scss";
-import { initializeApp } from "firebase/app";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import PrivateRoute from "./PrivateRoute/PrivateRoute";
+import { useAppDispatch } from "./hooks";
+import { updateUserId } from "./Authorization/model";
+import { app } from "./Network/firabase.config";
 
-// Your web app's Firebase configuration
-const firebaseConfig = {
-  apiKey: "AIzaSyCgQ79OncMP5m2vDHzU559bgJMNDQtFNZs",
-  authDomain: "techtask1.firebaseapp.com",
-  projectId: "techtask1",
-  storageBucket: "techtask1.appspot.com",
-  messagingSenderId: "490888516251",
-  appId: "1:490888516251:web:c98fb0528cc99b89972c3e",
-};
-
-// Initialize Firebase
-const firebaseApp = initializeApp(firebaseConfig);
-export const firebaseAuth = getAuth(firebaseApp);
+export const firebaseAuth = getAuth(app);
 
 const App = () => {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     onAuthStateChanged(firebaseAuth, (user) => {
       if (user) {
         const uid = user.uid;
-        console.log("you are signed in user:", uid);
+        dispatch(updateUserId(uid));
         navigate("/home", { replace: true });
       } else {
         navigate("/login", { replace: true });
-        console.log("user logged out");
       }
     });
   }, []);

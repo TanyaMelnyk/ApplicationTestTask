@@ -6,18 +6,20 @@ import {
   createUserWithEmailAndPassword,
 } from "firebase/auth";
 import { firebaseAuth } from "../../../App";
+import { updateUserId } from "../../../Authorization/model";
+import { useAppDispatch } from "../../../hooks";
 
 const ErrorMessage = ({ message }: { message: string }) => {
   return <div className="error">{message}</div>;
 };
 
 const LoginForm = ({ signUp = false }: { signUp?: boolean }) => {
+  const dispatch = useAppDispatch();
   const [form, setForm] = useState({
     email: "",
     password: "",
     confirmPassword: "",
   });
-
   const [error, setError] = useState("");
 
   const onChange = (
@@ -38,6 +40,7 @@ const LoginForm = ({ signUp = false }: { signUp?: boolean }) => {
     signInWithEmailAndPassword(firebaseAuth, form.email, form.password)
       .then((userCredential) => {
         const user = userCredential.user;
+        console.log(user);
       })
       .catch((error) => {
         const errorMessage = error.message;
@@ -53,6 +56,7 @@ const LoginForm = ({ signUp = false }: { signUp?: boolean }) => {
       createUserWithEmailAndPassword(firebaseAuth, form.email, form.password)
         .then((userCredential) => {
           const user = userCredential.user;
+          dispatch(updateUserId(user.uid));
         })
         .catch((error) => {
           const errorMessage = error.message;

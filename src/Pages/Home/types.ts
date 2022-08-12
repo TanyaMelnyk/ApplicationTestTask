@@ -1,20 +1,19 @@
-export type Content = {
-  id: number;
+export type Task = {
+  id: string;
   name: string;
   description: string;
   time: number;
-  active?: boolean;
+  pass: string;
 };
 
-type Task = {
+export type Folder = {
   name: string;
-  id: number;
-  tasks: Content[];
-  active?: boolean;
+  id: string;
+  tasks: Task[];
 };
 
-export type FoldersList = Task[];
-export type TasksList = Content[];
+export type FoldersList = Folder[];
+export type TasksList = Task[];
 export type ActiveIds = {
   folderId: number;
   taskId: number;

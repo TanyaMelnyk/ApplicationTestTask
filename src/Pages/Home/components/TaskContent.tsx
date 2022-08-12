@@ -1,19 +1,25 @@
 import TaskBar from "./TaskBar";
 import React from "react";
 import { getDateFromMs } from "../../../helpers/date";
+import { FoldersList } from "../types";
+import { getActiveTask } from "../utils";
+import { useAppSelector } from "../../../hooks";
 
-const TaskContent = ({
-  name,
-  description,
-  date,
-}: {
-  name: string;
-  description: string;
-  date: number;
-}) => {
-  const creationDate = getDateFromMs(date);
+const TaskContent = ({ folders }: { folders: FoldersList }) => {
+  const activeFolderId = useAppSelector(
+    ({ taskManager }) => taskManager.activeFolderId
+  );
+  const activeTaskId = useAppSelector(
+    ({ taskManager }) => taskManager.activeTaskId
+  );
+  const task = folders.length
+    ? getActiveTask(folders, activeFolderId, activeTaskId)
+    : null;
+
+  const creationDate = task ? getDateFromMs(task.time) : "";
+
   return (
-    <>
+    <div className="task-container">
       <TaskBar>
         <div>
           <button>
@@ -32,12 +38,14 @@ const TaskContent = ({
           </button>
         </div>
       </TaskBar>
-      <div className="task-content">
-        <p className="content-date">Created {creationDate}</p>
-        <h3>{name}</h3>
-        <p className="description">{description}</p>
-      </div>
-    </>
+      {task && (
+        <div className="task-content">
+          <p className="content-date">Created {creationDate}</p>
+          <h3>{task.name}</h3>
+          <p className="description">{task.description}</p>
+        </div>
+      )}
+    </div>
   );
 };
 export default TaskContent;

@@ -3,7 +3,11 @@ import type { Dispatch, PayloadAction } from "@reduxjs/toolkit";
 import { Folder, FoldersList, Task } from "./types";
 import { fetchTasks } from "../../Network/tasks";
 import { normalizeDataFolders } from "../../helpers/normalizers";
-import { sendFolderData, sendTaskData } from "../../Network/firebaseData";
+import {
+  fetchTaskData,
+  sendFolderData,
+  sendTaskData,
+} from "../../Network/firebaseData";
 import { getRandomString } from "../../helpers/string";
 
 export interface TasksState {
@@ -104,6 +108,15 @@ export const updateTaskData =
     dispatch(getFolders(userId, true));
   };
 
-export const { saveFolders, setLoading } = tasksSlice.actions;
+export const removeTaskData =
+  (userId: string, folderId: string, taskId: string) =>
+  async (dispatch: Dispatch<any>) => {
+    console.log(userId, taskId);
+    await fetchTaskData(userId, folderId, taskId);
+
+    dispatch(getFolders(userId, true));
+  };
+
+export const { setLoading } = tasksSlice.actions;
 
 export default tasksSlice.reducer;

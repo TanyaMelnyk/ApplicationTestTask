@@ -131,19 +131,6 @@
   & div {
     @include block-centering;
   }
-
-  & button {
-    @include block-centering;
-    width: 40px;
-    height: 40px;
-    background-color: transparent;
-    border: none;
-
-    &:hover {
-      background-color: rgba(0, 0, 0, 0.2);
-      border-radius: 4px;
-    }
-  }
 }
 
 .task-content {
@@ -166,5 +153,14 @@
   & .description {
     color: rgba(255, 255, 255, 0.5);
     font-weight: normal;
+  }
+}
+
+.delete-task {
+  display: flex;
+  gap: 15px;
+
+  & .title {
+    margin-bottom: 15px;
   }
 }

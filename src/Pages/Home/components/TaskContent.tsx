@@ -4,6 +4,7 @@ import { getDateFromMs } from "../../../helpers/date";
 import { FoldersList } from "../types";
 import { getActiveTask } from "../utils";
 import { useAppSelector } from "../../../hooks";
+import ButtonIcon from "../../../shared/templates/ButtonIcon/ButtonIcon";
 
 const TaskContent = ({ folders }: { folders: FoldersList }) => {
   const activeFolderId = useAppSelector(
@@ -22,20 +23,12 @@ const TaskContent = ({ folders }: { folders: FoldersList }) => {
     <div className="task-container">
       <TaskBar>
         <div>
-          <button>
-            <img src="./../../../../assets/edit.svg" alt="" />
-          </button>
-          <button>
-            <img src="./../../../../assets/zoom_text.svg" alt="" />
-          </button>
+          <ButtonIcon image="edit.svg" altText="edit" />
+          <ButtonIcon image="zoom_text.svg" altText="zoom" />
         </div>
         <div>
-          <button>
-            <img src="./../../../../assets/lock_icon.png" alt="" />
-          </button>
-          <button>
-            <img src="./../../../../assets/search_icon.svg" alt="" />
-          </button>
+          <ButtonIcon image="lock_icon.png" altText="lock" />
+          <ButtonIcon image="search_icon.svg" altText="search" />
         </div>
       </TaskBar>
       {task && (

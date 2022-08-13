@@ -6,6 +6,9 @@ import { FoldersList } from "../types";
 import { useAppDispatch, useAppSelector } from "../../../hooks";
 import { updateTaskData } from "../model";
 import { getActiveFolder } from "../utils";
+import { DeleteTaskModal } from "./DeleteTaskModal";
+import { useToggleModal } from "../../../shared/hooks/useToggleModal";
+import ButtonIcon from "../../../shared/templates/ButtonIcon/ButtonIcon";
 
 const TasksList = ({ folders }: { folders: FoldersList }) => {
   const dispatch = useAppDispatch();
@@ -13,6 +16,8 @@ const TasksList = ({ folders }: { folders: FoldersList }) => {
   const folderId = useAppSelector(
     ({ taskManager }) => taskManager.activeFolderId
   );
+  const taskId = useAppSelector(({ taskManager }) => taskManager.activeTaskId);
+  const { showModal, handleHideModal } = useToggleModal();
 
   const folder = folders ? getActiveFolder(folders, folderId) : null;
   const handleClick = () => {
@@ -23,16 +28,10 @@ const TasksList = ({ folders }: { folders: FoldersList }) => {
     <div className="tasks-list">
       <TaskBar>
         <div className="view">
-          <button>
-            <img src="./../../../../assets/list_icon.svg" alt="" />
-          </button>
-          <button>
-            <img src="./../../../../assets/grid_icon.svg" alt="" />
-          </button>
+          <ButtonIcon image="list_icon.svg" altText="list view" />
+          <ButtonIcon image="grid_icon.svg" altText="grid view" />
         </div>
-        <button>
-          <img src="./../../../../assets/basket.svg" alt="" />
-        </button>
+        <ButtonIcon image="basket.svg" altText="basket" />
       </TaskBar>
       {folder &&
         folder.tasks &&
@@ -50,6 +49,12 @@ const TasksList = ({ folders }: { folders: FoldersList }) => {
       <button onClick={handleClick} className="add-button">
         <img src="./../../../../assets/folder-add.svg" alt="" /> New task
       </button>
+      <DeleteTaskModal
+        show={showModal}
+        onHide={handleHideModal}
+        folderId={folderId}
+        taskId={taskId}
+      />
     </div>
   );
 };

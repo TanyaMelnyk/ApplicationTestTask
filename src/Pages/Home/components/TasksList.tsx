@@ -17,7 +17,7 @@ const TasksList = ({ folders }: { folders: FoldersList }) => {
     ({ taskManager }) => taskManager.activeFolderId
   );
   const taskId = useAppSelector(({ taskManager }) => taskManager.activeTaskId);
-  const { showModal, handleHideModal } = useToggleModal();
+  const { showModal, handleShowModal, handleHideModal } = useToggleModal();
 
   const folder = folders ? getActiveFolder(folders, folderId) : null;
   const handleClick = () => {
@@ -31,20 +31,16 @@ const TasksList = ({ folders }: { folders: FoldersList }) => {
           <ButtonIcon image="list_icon.svg" altText="list view" />
           <ButtonIcon image="grid_icon.svg" altText="grid view" />
         </div>
-        <ButtonIcon image="basket.svg" altText="basket" />
+        <ButtonIcon
+          onClick={handleShowModal}
+          image="basket.svg"
+          altText="basket"
+        />
       </TaskBar>
       {folder &&
         folder.tasks &&
         folder.tasks.map((item) => {
-          return (
-            <Task
-              key={item.time}
-              id={item.id}
-              name={item.name}
-              text={item.description}
-              date={item.time}
-            />
-          );
+          return <Task key={item.id} task={item} />;
         })}
       <button onClick={handleClick} className="add-button">
         <img src="./../../../../assets/folder-add.svg" alt="" /> New task

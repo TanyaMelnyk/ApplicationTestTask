@@ -6,6 +6,7 @@ import FolderList from "./components/FolderList";
 import TasksList from "./components/TasksList";
 import TaskContent from "./components/TaskContent";
 import { getFolders } from "./model";
+import { TaskContextProvider } from "../../Context";
 
 const Home = () => {
   const dispatch = useAppDispatch();
@@ -17,19 +18,21 @@ const Home = () => {
   }, []);
 
   return (
-    <Container className="folders-container" fluid="true">
-      <Row className="m-auto">
-        <Col lg="3">
-          <FolderList folders={folders} />
-        </Col>
-        <Col lg="4">
-          <TasksList folders={folders} />
-        </Col>
-        <Col lg="5">
-          <TaskContent folders={folders} />
-        </Col>
-      </Row>
-    </Container>
+    <TaskContextProvider>
+      <Container className="folders-container" fluid="true">
+        <Row className="m-auto">
+          <Col lg="3">
+            <FolderList folders={folders} />
+          </Col>
+          <Col lg="4">
+            <TasksList folders={folders} />
+          </Col>
+          <Col lg="5">
+            <TaskContent folders={folders} />
+          </Col>
+        </Row>
+      </Container>
+    </TaskContextProvider>
   );
 };
 

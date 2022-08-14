@@ -4,11 +4,14 @@ import { Folder, FoldersList, Task } from "./types";
 import { fetchTasks } from "../../Network/tasks";
 import { normalizeDataFolders } from "../../helpers/normalizers";
 import {
-  fetchTaskData,
+  sendRemovedData,
   sendFolderData,
+  sendPasswordData,
   sendTaskData,
 } from "../../Network/firebaseData";
 import { getRandomString } from "../../helpers/string";
+
+const md5 = require("md5");
 
 export interface TasksState {
   folders: FoldersList;
@@ -108,11 +111,18 @@ export const updateTaskData =
     dispatch(getFolders(userId, true));
   };
 
+export const updatePassword =
+  (userId: string, folderId: string, taskId: string, password: string) =>
+  async (dispatch: Dispatch<any>) => {
+    await sendPasswordData(userId, folderId, taskId, md5(password));
+    dispatch(getFolders(userId, true));
+  };
+
 export const removeTaskData =
   (userId: string, folderId: string, taskId: string) =>
   async (dispatch: Dispatch<any>) => {
     console.log(userId, taskId);
-    await fetchTaskData(userId, folderId, taskId);
+    await sendRemovedData(userId, folderId, taskId);
 
     dispatch(getFolders(userId, true));
   };

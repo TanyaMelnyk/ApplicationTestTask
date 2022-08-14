@@ -22,7 +22,22 @@ export const sendTaskData = async (
   });
 };
 
-export const fetchTaskData = async (
+export const sendPasswordData = async (
+  userId: string,
+  folderId: string,
+  taskId: string,
+  password: string
+) => {
+  const db = getDatabase();
+  const reference = ref(
+    db,
+    `users/${userId}/folders/${folderId}/tasks/${taskId}`
+  );
+
+  await update(reference, { pass: password });
+};
+
+export const sendRemovedData = async (
   userId: string,
   folderId: string,
   taskId: string
@@ -38,7 +53,6 @@ export const fetchTaskData = async (
 export const readUserData = async (userId: string): Promise<FoldersList> => {
   const db = getDatabase();
   const starCountRef = await get(ref(db, "users/" + userId + "/folders"));
-  console.log(starCountRef.val());
 
   return starCountRef.val();
 };

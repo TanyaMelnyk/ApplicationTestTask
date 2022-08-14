@@ -1,10 +1,34 @@
 import TaskBar from "./TaskBar";
-import React from "react";
+import React, { useContext } from "react";
 import { getDateFromMs } from "../../../helpers/date";
-import { FoldersList } from "../types";
+import { FoldersList, Task } from "../types";
 import { getActiveTask } from "../utils";
 import { useAppSelector } from "../../../hooks";
 import ButtonIcon from "../../../shared/templates/ButtonIcon/ButtonIcon";
+import LockedContent from "./LockedContent";
+import { TaskContext } from "../../../Context";
+import PasswordDropdown from "./PasswordDropdown";
+
+const md5 = require("md5");
+
+const TaskContentContainer = ({ task }: { task: Task }) => {
+  const { password } = useContext(TaskContext);
+  const isUnlockedContent = task?.pass === md5(password);
+
+  const creationDate = task ? getDateFromMs(task.time) : "";
+
+  if (task.pass && !isUnlockedContent) {
+    return <LockedContent />;
+  } else {
+    return (
+      <div className="task-content">
+        <p className="content-date">Created {creationDate}</p>
+        <h3>{task.name}</h3>
+        <p className="description">{task.description}</p>
+      </div>
+    );
+  }
+};
 
 const TaskContent = ({ folders }: { folders: FoldersList }) => {
   const activeFolderId = useAppSelector(
@@ -17,8 +41,6 @@ const TaskContent = ({ folders }: { folders: FoldersList }) => {
     ? getActiveTask(folders, activeFolderId, activeTaskId)
     : null;
 
-  const creationDate = task ? getDateFromMs(task.time) : "";
-
   return (
     <div className="task-container">
       <TaskBar>
@@ -27,17 +49,11 @@ const TaskContent = ({ folders }: { folders: FoldersList }) => {
           <ButtonIcon image="zoom_text.svg" altText="zoom" />
         </div>
         <div>
-          <ButtonIcon image="lock_icon.png" altText="lock" />
+          <PasswordDropdown />
           <ButtonIcon image="search_icon.svg" altText="search" />
         </div>
       </TaskBar>
-      {task && (
-        <div className="task-content">
-          <p className="content-date">Created {creationDate}</p>
-          <h3>{task.name}</h3>
-          <p className="description">{task.description}</p>
-        </div>
-      )}
+      {task && <TaskContentContainer task={task} />}
     </div>
   );
 };

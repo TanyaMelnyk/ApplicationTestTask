@@ -1,5 +1,3 @@
-# BillTechTest
-
 ## Description
 
 This is an application to test task using React. It was built with technologies: React JS, Redux toolkit, React router, typescript, Firebase, Prettier,

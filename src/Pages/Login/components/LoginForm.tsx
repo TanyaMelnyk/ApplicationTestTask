@@ -37,15 +37,12 @@ const LoginForm = ({ signUp = false }: { signUp?: boolean }) => {
   const onSignInClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
 
-    signInWithEmailAndPassword(firebaseAuth, form.email, form.password)
-      .then((userCredential) => {
-        const user = userCredential.user;
-        console.log(user);
-      })
-      .catch((error) => {
+    signInWithEmailAndPassword(firebaseAuth, form.email, form.password).catch(
+      (error) => {
         const errorMessage = error.message;
         setError(errorMessage);
-      });
+      }
+    );
   };
 
   const onSignUpClick = (event: React.MouseEvent<HTMLButtonElement>) => {

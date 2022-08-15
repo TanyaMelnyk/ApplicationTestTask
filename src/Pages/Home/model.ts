@@ -57,7 +57,7 @@ export const getFolders =
       const folders = await fetchTasks(userId);
       const foldersList = normalizeDataFolders(folders);
 
-      if (foldersList.length) {
+      if (foldersList && foldersList.length) {
         dispatch(actions.saveFolders(foldersList));
         if (!isUpdate) {
           //set first folder and task open by default
@@ -91,7 +91,7 @@ export const updateFolderData =
       tasks: [],
     };
     await sendFolderData(userId, folderData);
-
+    dispatch(updateActiveFolderId(id));
     dispatch(getFolders(userId, true));
   };
 
@@ -108,6 +108,7 @@ export const updateTaskData =
     };
     await sendTaskData(userId, folderId, taskData);
 
+    dispatch(updateActiveTaskId(id));
     dispatch(getFolders(userId, true));
   };
 
@@ -121,7 +122,6 @@ export const updatePassword =
 export const removeTaskData =
   (userId: string, folderId: string, taskId: string) =>
   async (dispatch: Dispatch<any>) => {
-    console.log(userId, taskId);
     await sendRemovedData(userId, folderId, taskId);
 
     dispatch(getFolders(userId, true));

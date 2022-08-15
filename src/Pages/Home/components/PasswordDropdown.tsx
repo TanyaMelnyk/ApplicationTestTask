@@ -44,6 +44,7 @@ const PasswordInput = ({
           value={password}
           placeholder="Your password"
         />
+        {/*Add button to send password to firebase*/}
         <Button onClick={handleSend}>Ok</Button>
       </div>
     </>
@@ -51,7 +52,6 @@ const PasswordInput = ({
 };
 
 const PasswordDropdown = () => {
-  //const [toggle, setToggle] = useState(false);
   const [password, setPassword] = useState("");
   const { toggleLock, setToggleLock } = useContext(TaskContext);
 

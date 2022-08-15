@@ -20,6 +20,7 @@ const TasksList = ({ folders }: { folders: FoldersList }) => {
   const { showModal, handleShowModal, handleHideModal } = useToggleModal();
 
   const folder = folders ? getActiveFolder(folders, folderId) : null;
+
   const handleClick = () => {
     dispatch(updateTaskData(userId, folderId));
   };
